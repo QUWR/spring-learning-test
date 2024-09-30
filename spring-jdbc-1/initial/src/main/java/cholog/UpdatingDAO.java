@@ -7,6 +7,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 @Repository
@@ -57,8 +58,19 @@ public class UpdatingDAO {
 
         //todo : keyHolder에 대해 학습하고, Customer를 저장후 저장된 Customer의 id를 반환하기
 
+
+
+        jdbcTemplate.update((Connection con) -> {
+            PreparedStatement pstmt = con.prepareStatement(
+                    "insert into customers (first_name, last_name) values (?, ?)",
+                    new String[]{"id"});
+            pstmt.setString(1, customer.getFirstName());
+            pstmt.setString(2, customer.getLastName());
+            return pstmt;
+        }, keyHolder);
+
         Long id = keyHolder.getKey().longValue();
 
-        return keyHolder.getKey().longValue();
+        return id;
     }
 }

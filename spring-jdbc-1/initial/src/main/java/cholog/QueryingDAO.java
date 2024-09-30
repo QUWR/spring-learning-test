@@ -44,14 +44,15 @@ public class QueryingDAO {
 
         //TODO : 주어진 Id에 해당하는 customers의 lastName을 반환
 
-        List<Customer> query = jdbcTemplate.query("select * from customers where id = ?", actorRowMapper, id);
+       /* List<Customer> query = jdbcTemplate.query("select * from customers where id = ?", actorRowMapper, id);
         for (Customer customer : query) {
             if(customer.getId() == id){
                 return customer.getLastName();
             }
-        }
+        }*/
 
-        return null;
+        Customer customer = jdbcTemplate.queryForObject("select * from customers where id = ?", actorRowMapper, id);
+        return customer.getLastName();
 
     }
 
@@ -63,13 +64,15 @@ public class QueryingDAO {
 
         //TODO : 주어진 Id에 해당하는 customer를 객체로 반환
 
-        List<Customer> query = jdbcTemplate.query(sql, actorRowMapper, id);
+       /* List<Customer> query = jdbcTemplate.query(sql, actorRowMapper, id);
         for (Customer customer : query) {
             if(customer.getId() == id){
                 return customer;
             }
-        }
-        return null;
+        }*/
+
+        Customer customer = jdbcTemplate.queryForObject(sql, actorRowMapper, id);
+        return customer;
     }
 
     /**
